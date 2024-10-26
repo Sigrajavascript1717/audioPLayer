@@ -4,7 +4,6 @@
         const songList = document.getElementById("song-list");
         const audio = document.getElementById("audio");
         const seekBar = document.getElementById("seek-bar");
-
         const currentDuration = document.getElementById("current-duration");
         const totalDuration = document.getElementById("total-duration");
 
