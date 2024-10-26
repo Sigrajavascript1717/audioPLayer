@@ -14,8 +14,6 @@
             <div class="text-center">
                 <h2 class="text-xl font-semibold text-white" id="track-name">Lagu: Nama Lagu</h2>
                 <h3 class="text-lg text-gray-300" id="artist-name">Artis: Nama Artis</h3>
-                <!-- Menampilkan durasi berjalan dan durasi total -->
-                <span class="text-gray-400" id="total-duration">00:00</span>
             </div>
         </div>
         <audio id="audio" src=""></audio>
@@ -24,95 +22,22 @@
             <button class="bg-yellow-500 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-yellow-600 transition" id="pausemusic">❚❚</button>
             <button class="bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-red-600 transition" id="stopmusic">⏹️</button>
         </div>
-        <input type="range" id="volumeslider" min="0" max="1" step="0.1" value="0.5" class="w-full mb-4 bg-gray-700 accent-green-500">
+
+        <!-- Seek bar and time display -->
+        <div class="flex items-center space-x-2 mb-4">
+            <span id="current-duration" class="text-gray-400">00:00</span>
+            <input type="range" id="seek-bar" min="0" value="0" class="w-full accent-green-500">
+            <span id="total-duration" class="text-gray-400">00:00</span>
+        </div>
+
         <div class="mt-4">
             <h2 class="text-lg font-semibold text-white mb-2">Daftar Lagu</h2>
             <ul id="song-list" class="list-disc list-inside text-gray-300">
                 <li class="hover:bg-gray-700 p-2 rounded cursor-pointer" data-src="/Demolition Lovers.mp3" data-song="Demolition Lovers" data-band="My Chemical Romance" data-img="/demo.jpg">Demolition Lovers - My Chemical Romance</li>
-                <li class="hover:bg-gray-700 p-2 rounded cursor-pointer" data-src="/Pass The Nirvana.mp3" data-song="Pass The Nirvana" data-band="Peirce The Viel" data-img="/download.jpg">Pass The Nirvana - Band Name</li>
+                <li class="hover:bg-gray-700 p-2 rounded cursor-pointer" data-src="/Pass The Nirvana.mp3" data-song="Pass The Nirvana" data-band="Pierce The Viel" data-img="/download.jpg" >Pass The Nirvana - Pierce The Viel </li>
             </ul>
         </div>
     </div>
-    <script>
-        const playmusic = document.getElementById("playmusic");
-        const pausemusic = document.getElementById("pausemusic");
-        const stopmusic = document.getElementById("stopmusic");
-        const volumeslider = document.getElementById("volumeslider");
-        const songList = document.getElementById("song-list");
-        const audio = document.getElementById("audio");
-
-        const currentDuration = document.getElementById("current-duration");
-        const totalDuration = document.getElementById("total-duration");
-
-        // Fungsi untuk mengubah detik ke format menit:detik
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
-            return `${minutes}:${secs}`;
-        }
-
-        // Mengatur lagu default saat halaman dimuat
-        window.onload = () => {
-            const defaultSong = songList.querySelector("li");
-            audio.src = defaultSong.getAttribute("data-src");
-            document.getElementById("track-name").textContent = `Lagu: ${defaultSong.getAttribute("data-song")}`;
-            document.getElementById("artist-name").textContent = `Artis: ${defaultSong.getAttribute("data-band")}`;
-            document.getElementById("cover-img").src = defaultSong.getAttribute("data-img");
-        };
-
-        // Memutar musik saat tombol play ditekan
-        playmusic.addEventListener("click", () => {
-            audio.play().then(() => {
-                console.log("Musik berhasil diputar");
-            }).catch(error => {
-                console.log("Error:", error);
-            });
-        });
-
-        // Menjeda musik saat tombol pause ditekan
-        pausemusic.addEventListener("click", () => {
-            audio.pause();
-            console.log("Musik dijeda");
-        });
-
-        // Menghentikan musik dan mengembalikan ke awal saat tombol stop ditekan
-        stopmusic.addEventListener("click", () => {
-            audio.pause();
-            audio.currentTime = 0;
-            console.log("Musik dihentikan");
-        });
-
-        // Mengubah volume audio saat slider volume diubah
-        volumeslider.addEventListener("input", (e) => {
-            audio.volume = e.target.value;
-            console.log("Volume:", audio.volume);
-        });
-
-        // Mengatur durasi total setelah metadata lagu dimuat
-        audio.addEventListener("loadedmetadata", () => {
-            totalDuration.textContent = formatTime(audio.duration);
-        });
-
-        // Memperbarui durasi berjalan setiap kali posisi audio berubah
-        audio.addEventListener("timeupdate", () => {
-            currentDuration.textContent = formatTime(audio.currentTime);
-        });
-
-        // Mengubah lagu saat item di daftar lagu diklik
-        songList.addEventListener("click", (e) => {
-            if (e.target.tagName === "LI") {
-                audio.src = e.target.getAttribute("data-src");
-                audio.play();
-
-                const judul = e.target.getAttribute("data-song");
-                const band = e.target.getAttribute("data-band");
-                const cover = e.target.getAttribute("data-img");
-
-                document.getElementById("track-name").textContent = `Lagu: ${judul}`;
-                document.getElementById("artist-name").textContent = `Artis: ${band}`;
-                document.getElementById("cover-img").src = cover;
-            }
-        });
-    </script>
+    <script src="/index.js"></script>    
 </body>
 </html>
